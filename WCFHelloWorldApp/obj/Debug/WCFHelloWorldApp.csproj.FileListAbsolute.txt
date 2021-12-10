@@ -1,0 +1,7 @@
+C:\Projects\WCFHelloWorldApp\WCFHelloWorldApp\bin\WCFHelloWorldApp.dll.config
+C:\Projects\WCFHelloWorldApp\WCFHelloWorldApp\bin\WCFHelloWorldApp.dll
+C:\Projects\WCFHelloWorldApp\WCFHelloWorldApp\bin\WCFHelloWorldApp.pdb
+C:\Projects\WCFHelloWorldApp\WCFHelloWorldApp\obj\Debug\WCFHelloWorldApp.csproj.AssemblyReference.cache
+C:\Projects\WCFHelloWorldApp\WCFHelloWorldApp\obj\Debug\WCFHelloWorldApp.csproj.CoreCompileInputs.cache
+C:\Projects\WCFHelloWorldApp\WCFHelloWorldApp\obj\Debug\WCFHelloWorldApp.dll
+C:\Projects\WCFHelloWorldApp\WCFHelloWorldApp\obj\Debug\WCFHelloWorldApp.pdb

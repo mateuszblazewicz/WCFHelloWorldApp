@@ -2,11 +2,7 @@ param(
     [Parameter(Mandatory=$true)]
     [string] $SubscriptionId,
     [string] $ResourceGroup = "RBCWcfTesting",
-    [string] $Location = "westeurope",
-    [Parameter(Mandatory=$true)]
-    [string] $WcfServiceZipPath
-    # [Parameter(Mandatory=$true)]
-    # [string] $WcfClientProjectPath
+    [string] $Location = "westeurope"
 )
 
 ## login
@@ -23,11 +19,3 @@ $deploymentResults = $(az deployment group create --template-file $template.Full
     --parameters $params.FullName `
     --parameters location=$Location `
     --resource-group $ResourceGroup | ConvertFrom-Json)
-
-## code deployment
-az webapp deploy --src-path $WcfServiceZipPath --resource-group $ResourceGroup `
-    --name $deploymentResults.properties.outputs.wcfServiceName.value `
-    --restart
-
-# az webapp deploy --src-path $WcfClientZipPath --resource-group $ResourceGroup `
-#     --name $deploymentResults.properties.outputs.wcfClientName.value

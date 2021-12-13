@@ -17,5 +17,4 @@ az group create --location $Location --name $ResourceGroup
 
 $deploymentResults = $(az deployment group create --template-file $template.FullName `
     --parameters $params.FullName `
-    --parameters location=$Location `
     --resource-group $ResourceGroup | ConvertFrom-Json)

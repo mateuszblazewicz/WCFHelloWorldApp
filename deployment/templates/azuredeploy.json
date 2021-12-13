@@ -1,0 +1,160 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "type": "string",
+            "defaultValue": "westeurope"
+        },
+        "salt": {
+            "type": "string"
+        }
+    },
+    "variables": {
+        "appServicePlanService": "[concat('appsvcplansvc', parameters('salt'))]",
+        "appServicePlanClient": "[concat('appsvcplanclient', parameters('salt'))]",
+        "webAppService": "[concat('webappvc', parameters('salt'))]",
+        "webAppClient": "[concat('webappclient', parameters('salt'))]",
+        "appInsights": "[concat('appinsights', parameters('salt'))]"
+    },
+    "resources": [
+        {
+            "apiVersion": "2015-05-01",
+            "name": "[variables('appInsights')]",
+            "type": "microsoft.insights/components",
+            "location": "[parameters('location')]",
+            "tags": {},
+
+            "properties": {
+                "Application_Type": "web",
+                "Request_Source": "IbizaWebAppExtensionCreate"
+            }
+        },
+        {
+            "type": "Microsoft.Web/serverfarms",
+            "apiVersion": "2020-06-01",
+            "name": "[variables('appServicePlanService')]",
+            "location": "[resourceGroup().location]",
+            "sku": {
+                "name": "B1"
+            },
+            "kind": "app",
+            "properties": {
+                "reserved": false
+            },
+
+            "tags": {
+                "app": "wcfservice"
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites",
+            "apiVersion": "2020-06-01",
+            "name": "[variables('webAppService')]",
+            "location": "[resourceGroup().location]",
+            "kind": "app",
+
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanService'))]",
+                "[resourceId('microsoft.insights/components', variables('appInsights'))]"
+            ],
+
+            "tags": {
+                "app": "wcfservice"
+            },
+
+            "properties": {
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanService'))]",
+                "siteConfig": {
+                    "netFrameworkVersion": "v4.0",
+                    "appSettings": [
+                        {
+                            "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                            "value": "[reference(concat('microsoft.insights/components/', variables('appInsights')), '2015-05-01').InstrumentationKey]"
+                        },
+                        {
+                            "name": "APPLICATIONINSIGHTS_CONNECTION_STRING",
+                            "value": "[reference(concat('microsoft.insights/components/', variables('appInsights')), '2015-05-01').ConnectionString]"
+                        },
+                        {
+                            "name": "ApplicationInsightsAgent_EXTENSION_VERSION",
+                            "value": "~2"
+                        },
+                        {
+                            "name": "XDT_MicrosoftApplicationInsights_Mode",
+                            "value": "default"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Web/serverfarms",
+            "apiVersion": "2020-06-01",
+            "name": "[variables('appServicePlanClient')]",
+            "location": "[resourceGroup().location]",
+            "sku": {
+                "name": "B1"
+            },
+            "kind": "app",
+            "properties": {
+                "reserved": false
+            },
+
+            "tags": {
+                "app": "wcfclient"
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites",
+            "apiVersion": "2020-06-01",
+            "name": "[variables('webAppClient')]",
+            "location": "[resourceGroup().location]",
+            "kind": "app",
+            
+            "tags": {
+                "app": "wcfclient"
+            },
+
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanClient'))]",
+                "[resourceId('microsoft.insights/components', variables('appInsights'))]"
+            ],
+
+            "properties": {
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanClient'))]",
+                "siteConfig": {
+                    "netFrameworkVersion": "v4.0",
+                    "appSettings": [
+                        {
+                            "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                            "value": "[reference(concat('microsoft.insights/components/', variables('appInsights')), '2015-05-01').InstrumentationKey]"
+                        },
+                        {
+                            "name": "APPLICATIONINSIGHTS_CONNECTION_STRING",
+                            "value": "[reference(concat('microsoft.insights/components/', variables('appInsights')), '2015-05-01').ConnectionString]"
+                        },
+                        {
+                            "name": "ApplicationInsightsAgent_EXTENSION_VERSION",
+                            "value": "~2"
+                        },
+                        {
+                            "name": "XDT_MicrosoftApplicationInsights_Mode",
+                            "value": "default"
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "outputs": {
+        "WcfServiceName": {
+            "type": "string",
+            "value": "[reference(concat('Microsoft.Web/sites/', variables('webAppService')), '2020-06-01').name]"
+        },
+        "WcfClientName": {
+            "type": "string",
+            "value": "[reference(concat('Microsoft.Web/sites/', variables('webAppClient')), '2020-06-01').name]"
+        }
+    }
+ }

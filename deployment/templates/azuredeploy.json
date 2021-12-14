@@ -92,9 +92,9 @@
             "sku": {
                 "name": "B1"
             },
-            "kind": "linux",
+            "kind": "app",
             "properties": {
-                "reserved": true
+                "reserved": false
             },
 
             "tags": {
@@ -106,6 +106,7 @@
             "apiVersion": "2020-06-01",
             "name": "[variables('webAppClient')]",
             "location": "[resourceGroup().location]",
+            "kind": "app",
             
             "tags": {
                 "app": "wcfclient"
@@ -119,11 +120,23 @@
             "properties": {
                 "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanClient'))]",
                 "siteConfig": {
-                    "linuxFxVersion": "DOTNETCORE|3.1",
+                    "netFrameworkVersion": "v4.0",
                     "appSettings": [
                         {
                             "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
                             "value": "[reference(concat('microsoft.insights/components/', variables('appInsights')), '2015-05-01').InstrumentationKey]"
+                        },
+                        {
+                            "name": "APPLICATIONINSIGHTS_CONNECTION_STRING",
+                            "value": "[reference(concat('microsoft.insights/components/', variables('appInsights')), '2015-05-01').ConnectionString]"
+                        },
+                        {
+                            "name": "ApplicationInsightsAgent_EXTENSION_VERSION",
+                            "value": "~2"
+                        },
+                        {
+                            "name": "XDT_MicrosoftApplicationInsights_Mode",
+                            "value": "default"
                         }
                     ]
                 }

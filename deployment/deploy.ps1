@@ -15,6 +15,6 @@ $params = Get-ChildItem -Path "$PSScriptRoot/templates/azureparameters.json"
 
 az group create --location $Location --name $ResourceGroup
 
-$deploymentResults = $(az deployment group create --template-file $template.FullName `
+az deployment group create --template-file $template.FullName `
     --parameters $params.FullName `
-    --resource-group $ResourceGroup | ConvertFrom-Json)
+    --resource-group $ResourceGroup

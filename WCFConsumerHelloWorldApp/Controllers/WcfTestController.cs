@@ -6,6 +6,7 @@ using System.Linq;
 using System.ServiceModel;
 using System.Threading.Tasks;
 using ServiceReference1;
+using System.Threading;
 
 namespace WCFConsumerHelloWorldApp.Controllers
 {
@@ -43,6 +44,16 @@ namespace WCFConsumerHelloWorldApp.Controllers
             var result = service.GetDataAsync(n);
 
             return Ok(await result);
+        }
+
+        [HttpGet]
+        [Route("WcfTest/threads")]
+        public ActionResult GetThreadsAsync()
+        {
+            int t1, t2;
+            ThreadPool.GetMinThreads(out t1, out t2);
+            var result = $"Processors: {Environment.ProcessorCount}, MinThreads: {t1}";
+            return Ok(result);
         }
     }
 }

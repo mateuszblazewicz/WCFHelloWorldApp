@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace WCFConsumerHelloWorldApp
@@ -27,6 +28,8 @@ namespace WCFConsumerHelloWorldApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var minThreads = Configuration.GetValue<int>("MinThreads");
+            ThreadPool.SetMinThreads(minThreads, minThreads);
 
             services.ConfigureTelemetryModule<EventCounterCollectionModule>(
                 (module, o) =>

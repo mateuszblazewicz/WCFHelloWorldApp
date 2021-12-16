@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wcfclient-deployment
+  labels:
+    name: wcfclient-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wcfclient
+  template:
+    metadata:
+      labels:
+        app: wcfclient
+    spec:
+      containers:
+      - name: wcfclient
+        image: rbcwcftestingregistry.azurecr.io/rbc/wcftestclient:latest
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            memory: "500Mi"
+            cpu: "250m"
+          limits:
+            memory: "500Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wcfclient-service
+  annotations:
+    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+spec:
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 80
+  selector:
+    app: wcfclient

@@ -1,4 +1,5 @@
 using Microsoft.ApplicationInsights.AspNetCore.Extensions;
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.ApplicationInsights.Extensibility.EventCounterCollector;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -49,6 +50,7 @@ namespace WCFConsumerHelloWorldApp
             );
 
             services.AddSingleton<WCFClientHelper>();
+            services.AddSingleton<ITelemetryInitializer, CloudRoleNameTelemetryInitializer>();
 
             services.AddApplicationInsightsTelemetry();
 

@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using WCFConsumerHelloWorldApp.Services;
 
 namespace WCFConsumerHelloWorldApp
 {
@@ -46,6 +47,8 @@ namespace WCFConsumerHelloWorldApp
                     module.Counters.Add(new EventCounterCollectionRequest("System.Runtime", "threadpool-thread-count"));
                 }
             );
+
+            services.AddSingleton<WCFClientHelper>();
 
             services.AddApplicationInsightsTelemetry();
 

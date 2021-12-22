@@ -16,7 +16,7 @@ namespace WCFConsumerHelloWorldApp.Services
         public virtual T Create<T>() where T : class
         {
             ChannelFactory<T> factory = null;
-            var endpoint = new EndpointAddress("https://webappvccx42a.azurewebsites.net/Service1.svc");
+            var endpoint = new EndpointAddress("https://rbcwcftestservice.azurewebsites.net/Service1.svc");
 
             BasicHttpBinding binding = new BasicHttpBinding();
             binding.Security.Mode = BasicHttpSecurityMode.Transport;

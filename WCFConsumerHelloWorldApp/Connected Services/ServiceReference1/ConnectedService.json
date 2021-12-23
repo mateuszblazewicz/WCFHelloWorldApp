@@ -1,7 +1,7 @@
 {
   "ExtendedData": {
     "inputs": [
-      "https://webappvccx42a.azurewebsites.net/Service1.svc"
+      "https://rbcwcftestservice.azurewebsites.net/Service1.svc"
     ],
     "collectionTypes": [
       "System.Array",

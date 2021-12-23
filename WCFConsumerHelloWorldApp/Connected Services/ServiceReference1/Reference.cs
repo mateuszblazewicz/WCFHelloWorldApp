@@ -152,11 +152,11 @@ namespace ServiceReference1
         {
             if ((endpointConfiguration == EndpointConfiguration.BasicHttpBinding_IService1))
             {
-                return new System.ServiceModel.EndpointAddress("http://webappvccx42a.azurewebsites.net/Service1.svc");
+                return new System.ServiceModel.EndpointAddress("http://rbcwcftestservice.azurewebsites.net/Service1.svc");
             }
             if ((endpointConfiguration == EndpointConfiguration.BasicHttpsBinding_IService1))
             {
-                return new System.ServiceModel.EndpointAddress("https://webappvccx42a.azurewebsites.net/Service1.svc");
+                return new System.ServiceModel.EndpointAddress("https://rbcwcftestservice.azurewebsites.net/Service1.svc");
             }
             throw new System.InvalidOperationException(string.Format("Could not find endpoint with name \'{0}\'.", endpointConfiguration));
         }

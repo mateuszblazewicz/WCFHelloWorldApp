@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace WCFHelloWorldApp
 {
@@ -15,6 +16,9 @@ namespace WCFHelloWorldApp
 
         [OperationContract]
         string GetData(int value);
+
+        [OperationContract]
+        Task<string> GetDataTask(int value);
 
         [OperationContract]
         CompositeType GetDataUsingDataContract(CompositeType composite);

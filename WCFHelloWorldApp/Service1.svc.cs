@@ -5,6 +5,8 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace WCFHelloWorldApp
 {
@@ -14,7 +16,14 @@ namespace WCFHelloWorldApp
     {
         public string GetData(int value)
         {
-            return string.Format("You entered: {0}", value);
+            Thread.Sleep(TimeSpan.FromMilliseconds(300));
+            return $"You entered: {value}";
+        }
+
+        public async Task<string> GetDataTask(int value)
+        {
+            await Task.Delay(TimeSpan.FromMilliseconds(300));
+            return $"You entered: {value}";
         }
 
         public CompositeType GetDataUsingDataContract(CompositeType composite)

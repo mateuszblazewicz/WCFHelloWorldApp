@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using ServiceReference1;
 using WCFConsumerHelloWorldApp.Services;
 
 namespace WCFConsumerHelloWorldApp
@@ -49,6 +50,7 @@ namespace WCFConsumerHelloWorldApp
                 }
             );
 
+            services.AddSingleton<Service1Client>(p => new Service1Client(Service1Client.EndpointConfiguration.BasicHttpsBinding_IService1));
             services.AddSingleton<WCFClientHelper>();
             services.AddSingleton<ITelemetryInitializer, CloudRoleNameTelemetryInitializer>();
 

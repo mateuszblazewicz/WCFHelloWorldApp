@@ -15,21 +15,21 @@ namespace WCFConsumerHelloWorldApp.Controllers
     public class WcfTestController : ControllerBase
     {
         private readonly ILogger<WcfTestController> _logger;
+        private readonly Service1Client _service1Client;
         private readonly WCFClientHelper _wcfClientHelper;
 
-        public WcfTestController(ILogger<WcfTestController> logger, WCFClientHelper wcfClientHelper)
+        public WcfTestController(ILogger<WcfTestController> logger, WCFClientHelper wcfClientHelper, Service1Client service1Client)
         {
             _logger = logger;
             _wcfClientHelper = wcfClientHelper;
+            _service1Client = service1Client;
         }
 
         [HttpGet]
         [Route("WcfTest/GetData/{number}")]
         public async Task<ActionResult> GetAsync(int number)
         {
-            Service1Client service =
-                new Service1Client(Service1Client.EndpointConfiguration.BasicHttpsBinding_IService1);
-            var result = service.GetDataAsync(number);
+            var result = _service1Client.GetDataAsync(number);
 
             return Ok(await result);
         }
@@ -38,13 +38,10 @@ namespace WCFConsumerHelloWorldApp.Controllers
         [Route("WcfTest/GetData")]
         public async Task<ActionResult> GetAsync()
         {
-            Service1Client service =
-                new Service1Client(Service1Client.EndpointConfiguration.BasicHttpsBinding_IService1);
-
             Random r = new Random();
             int n = r.Next();
 
-            var result = service.GetDataAsync(n);
+            var result = _service1Client.GetDataAsync(n);
 
             return Ok(await result);
         }

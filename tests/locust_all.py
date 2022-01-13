@@ -1,7 +1,7 @@
 from locust import HttpUser, task, between, tag
 
 class TestWcfIIS(HttpUser):
-    host = 'http://20.63.65.130'
+    host = 'http://20.104.218.70'
     wait_time = between(0.2, 0.3)
 
     def on_start(self):
@@ -18,7 +18,7 @@ class TestWcfIIS(HttpUser):
         self.client.get("/WcfTest/GetData?type=iis")
 
 class TestWcfDocker(HttpUser):
-    host = 'http://20.116.31.140'
+    host = 'http://20.104.218.118'
     wait_time = between(0.2, 0.3)
 
     def on_start(self):

@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: wcfclient-deployment
+  name: wcfclient-deployment-2022
   labels:
-    name: wcfclient-deployment
+    name: wcfclient-deployment-2022
 spec:
   replicas: 1
   selector:
@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: wcfclient
-        image: rbcwcfclienttestacr.azurecr.io/rbc/wcftestclient:aks
+        image: rbcwcfclienttestacr.azurecr.io/rbc/wcftestclient:latest
         ports:
         - containerPort: 80
         resources:

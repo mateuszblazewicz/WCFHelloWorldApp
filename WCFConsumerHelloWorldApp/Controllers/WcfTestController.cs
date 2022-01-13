@@ -29,29 +29,33 @@ namespace WCFConsumerHelloWorldApp.Controllers
         [Route("WcfTest/GetData/{number:int}")]
         public async Task<ActionResult> GetAsync(int number)
         {
-            using (_service1Client)
+
+            if (_service1Client.State == CommunicationState.Faulted || _service1Client.State == CommunicationState.Closed || _service1Client.State == CommunicationState.Closing)
             {
                 await _service1Client.OpenAsync();
-                string result = await  _service1Client.GetDataAsync(number);
-
-                return Ok(result);
             }
+
+            string result = await _service1Client.GetDataAsync(number);
+
+            return Ok(result);
+
         }
 
         [HttpGet]
         [Route("WcfTest/GetData")]
         public async Task<ActionResult> GetAsync()
         {
-            using (_service1Client)
+            Random r = new Random();
+            int n = r.Next();
+
+            if (_service1Client.State == CommunicationState.Faulted || _service1Client.State == CommunicationState.Closed || _service1Client.State == CommunicationState.Closing)
             {
-                Random r = new Random();
-                int n = r.Next();
-
                 await _service1Client.OpenAsync();
-                string result = await _service1Client.GetDataAsync(n);
-
-                return Ok(result);
             }
+
+            string result = await _service1Client.GetDataAsync(n);
+
+            return Ok(result);
         }
 
         [HttpGet]

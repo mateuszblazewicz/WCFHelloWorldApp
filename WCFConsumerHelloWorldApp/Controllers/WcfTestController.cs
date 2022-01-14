@@ -23,17 +23,13 @@ namespace WCFConsumerHelloWorldApp.Controllers
             _logger = logger;
             _wcfClientHelper = wcfClientHelper;
             _service1Client = service1Client;
+            _service1Client.OpenAsync();
         }
 
         [HttpGet]
         [Route("WcfTest/GetData/{number:int}")]
         public async Task<ActionResult> GetAsync(int number)
         {
-
-            if (_service1Client.State == CommunicationState.Faulted || _service1Client.State == CommunicationState.Closed || _service1Client.State == CommunicationState.Closing)
-            {
-                await _service1Client.OpenAsync();
-            }
 
             string result = await _service1Client.GetDataAsync(number);
 
@@ -47,11 +43,6 @@ namespace WCFConsumerHelloWorldApp.Controllers
         {
             Random r = new Random();
             int n = r.Next();
-
-            if (_service1Client.State == CommunicationState.Faulted || _service1Client.State == CommunicationState.Closed || _service1Client.State == CommunicationState.Closing)
-            {
-                await _service1Client.OpenAsync();
-            }
 
             string result = await _service1Client.GetDataAsync(n);
 

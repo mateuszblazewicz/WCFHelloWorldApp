@@ -35,7 +35,7 @@ class TestWcfDocker(HttpUser):
         self.client.get("/WcfTest/GetData?type=docker")
 
 class TestWcfAppService(HttpUser):
-    host = 'http://rbcwcftestclient.azurewebsites.net'
+    host = 'https://rbcwcftestclient.azurewebsites.net'
     wait_time = between(0.2, 0.3)
 
     def on_start(self):
